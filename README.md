@@ -1,12 +1,9 @@
-# <img src="assets/icon.png" alt="drawing" style="width:35px;margin-bottom:-8px;"/> MAT: <ins>M</ins>ulti-modal <ins>A</ins>gent <ins>T</ins>uning: Building a VLM-Driven Agent for Efficient Tool Usage
+# 针对多模态智能体工具交互能力的微调研究
 
-<p align="center">
-        🤗 <a href="https://huggingface.co/datasets/PengxiangLi/MAT">Hugging Face Dataset</a> &nbsp&nbsp| &nbsp&nbsp 📑 <a href="https://mat-agent.github.io/">Webpage</a> &nbsp&nbsp| &nbsp&nbsp 📑 <a href="https://arxiv.org/pdf/2412.15606">Paper</a> &nbsp&nbsp  </a>
-</p>
+# 初始设置
 
-# Setup
-
-## Install environment
+## 环境下载
+在anaconda下创建用于执行的环境
 ```bash
 conda create -n tongagent python=3.10
 conda activate tongagent
@@ -14,11 +11,18 @@ conda activate tongagent
 pip install -r requirements.txt
 ```
 
-If you want to generate data by yourself, install the following environment.
+如果想自己生成数据, 需要下载下面的环境.
 ```bash
 pip install -r requirements_generation.txt
 ```
-## Dowanload dataset
+
+## Data Generation
+生成数据时，运行下面的指令. 
+```bash
+bash data_generation.sh
+```
+
+## Prepare dataset
 You can use `git lfs` or `huggingface-cli` to download the dataset we used in paper from [HF dataset](https://huggingface.co/datasets/PengxiangLi/MAT). **Images related to training is zipped in a file called files.zip**.
 
 ## Download model parameters for vision tools
@@ -64,18 +68,11 @@ We use GPT on Azure and provide a simple alternative for you to use original Ope
 ## Download benchmark dataset
 You can download the GTA dataset from [GTA Link](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip), and revise your dataset path `data/gta_dataset/dataset.json` in `examples/gta/main.py` if you put it in some other path.
 
-You can download the GAIA dataset from [GAIA Link](https://huggingface.co/datasets/gaia-benchmark/GAIA). Or running evaluation script will automatically download the dataset from HF.
-
 ## Run
 
 Run in command line manner with arbitrary prompt.
 ```bash
 python main.py --prompt 'Can you edit the image to turn him into cyborg? Image path: tests/data/draw.jpg.'
-```
-
-See results runing on GAIA set
-```bash
-python examples/gaia/main.py
 ```
 
 See results runing on GTA set
@@ -84,21 +81,6 @@ python examples/gta/main.py
 ```
 
 # Experiments
-## MiniCPM-V
-Refer to official repo [OpenBMB/MiniCPM-V](https://github.com/OpenBMB/MiniCPM-V) for environment setup. Since Qwen-VL might have different version than MiniCPM-V, you should consider using a new conda environment.
-
-To train the model, enter the directory and run the script:
-```bash
-cd experiments/CPM-FT
-
-# for training a model for GAIA dataset
-bash slurm_jobs/job_lora_5_gaia_1206.sh
-
-# for training a model for GTA dataset
-bash slurm_jobs/job_lora_5_gta_with_verifier.sh
-```
-Check this scripts for assign data path. It should takes 4 hours on 8X A100 for 50K dataset per epoch.
-
 ## Qwen-VL
 Refer to official repo [Qwen-VL](https://github.com/QwenLM/Qwen2-VL) for environment setup.
 
@@ -139,12 +121,6 @@ python examples/gaia/eval.py --data-path .cache/qa_cache/validation/minicpm/expe
 python examples/gta/eval.py --folder .cache/gta/cpm_v2_6_7904295_2024_12_10_23_05/
 ```
 
-## Data Generation
-Run in command line manner. 
-```bash
-bash data_generation.sh
-```
-
 # Acknowledgement
 Thanks for their brilliant contributions to the community! Here are the codebases we built upon.
 
@@ -158,15 +134,6 @@ Our agent design is inspired by the following works:
 Model training and inference code:
 * https://github.com/OpenBMB/MiniCPM-V
 * https://github.com/QwenLM/Qwen2-VL
-
-# Citation
-If you find our work helpful, please consider cite our paper 📝 and star us ⭐️！
-
-```bib
-@article{gao2024multimodalagenttuningbuilding,
-      title={Multi-modal Agent Tuning: Building a VLM-Driven Agent for Efficient Tool Usage}, 
-      author={Zhi Gao and Bofei Zhang and Pengxiang Li and Xiaojian Ma and Tao Yuan and Yue Fan and Yuwei Wu and Yunde Jia and Song-Chun Zhu and Qing Li},
-      year={2024},
       eprint={2412.15606},
       archivePrefix={arXiv},
       primaryClass={cs.AI},
