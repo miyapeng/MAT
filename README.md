@@ -64,8 +64,7 @@ agent_controller:
 这里使用Azure上的GPT.
 
 ## 下载基准测试数据集
-可以从链接出下载GTA数据集 [GTA Link](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip), 并更改数据集路径 `data/gta_dataset/dataset.json` in `examples/gta/main.py` if you put it in some other path.
-
+可以从链接出下载GTA数据集 [GTA Link](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip), 并更改`examples/gta/main.py`中的数据集路径为 `data/gta_dataset/dataset.json`
 ## 运行
 可以用以下命令来执行任意提示词
 ```bash
@@ -81,15 +80,8 @@ python examples/gta/main.py
 ## Qwen-VL
 Refer to official repo [Qwen-VL](https://github.com/QwenLM/Qwen2-VL) for environment setup.
 
-After setup the environment, you can run the script convert dataset from MiniCPM-V to Qwen-VL format:
-```bash
-cd experiments/Qwen-VL
-
-python scripts/convert_dataset_v2.py
-```
 Then you can run the script to train the model:
 ```bash
-bash slurm_jobs/train_gaia.sh
 bash slurm_jobs/train_gta.sh
 ```
 
@@ -98,12 +90,6 @@ To evaluate the model, first modify the `configs/agent_config.yaml` to set the m
 ```bash
 export RUN_MODE=eval
 
-# for GAIA dataset
-python examples/gaia/main.py --engine minicpm --lora-path experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/ --data-name 2023_level1 --split validation
-
-python examples/gaia/main.py --engine minicpm --lora-path experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/ --data-name 2023_level2 --split validation
-
-python examples/gaia/main.py --engine minicpm --lora-path experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/ --data-name 2023_level3 --split validation
 # for GTA dataset
 python examples/gta/main.py --engine minicpm --lora-path experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/
 ```
@@ -112,7 +98,5 @@ python examples/gta/main.py --engine minicpm --lora-path experiments/CPM-FT/outp
 Both benchmarks will output the results in `.cache` folder. You should use `eval.py` to get the metric we reported in the paper.
 
 ```bash
-python examples/gaia/eval.py --data-path .cache/qa_cache/validation/minicpm/experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/2023_level1.db
-
 python examples/gta/eval.py --folder .cache/gta/cpm_v2_6_7904295_2024_12_10_23_05/
 ```
