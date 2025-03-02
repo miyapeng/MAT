@@ -16,38 +16,36 @@ pip install -r requirements.txt
 pip install -r requirements_generation.txt
 ```
 
-## Data Generation
+## 数据生成
 生成数据时，运行下面的指令. 
 ```bash
 bash data_generation.sh
 ```
 
-## Prepare dataset
-You can use `git lfs` or `huggingface-cli` to download the dataset we used in paper from [HF dataset](https://huggingface.co/datasets/PengxiangLi/MAT). **Images related to training is zipped in a file called files.zip**.
+## 准备数据集
+收集的数据集打包为zip文件，直接放入data文件夹下
 
-## Download model parameters for vision tools
-You only need to download SAM 2 manually. For other models, `transformers` will do downloading for you.
-
-Put the folder `model_checkpoints` in your repo's root so that you have something like
+## 下载视觉工具的模型参数
+你只需要**手动下载 SAM 2**，其他模型`transformers`会自动下载。
+请将 `model_checkpoints` 文件夹放置在项目的根目录，使目录结构如下：
 ```
 main.py
 model_checkpoints/sam2_checkpoints
 model_checkpoints/sam2_configs
 ```
-You can download the model checkpoints and configs by scripts from from the official repo.
+你可以通过官方仓库提供的脚本下载模型权重和配置文件：
 * [sam2_checkpoints](https://github.com/facebookresearch/sam2/blob/main/checkpoints/download_ckpts.sh)
 * [sam2_configs](https://github.com/facebookresearch/sam2?tab=readme-ov-file#sam-21-checkpoints)
 
-### Setup Google Customized Search
-This project using Google Customized Search to search the web. You need to set the `cx` and `key` in `configs/agent_config.yaml`. You will find the `cx` and `key` in the `search_engine` section.
+### 设置 Google 自定义搜索
+该项目使用 **Google Customized Search** 进行网页搜索。你需要在 `configs/agent_config.yaml` 文件中设置 `cx` 和 `key`，它们位于 `search_engine` 部分：
 ```yaml
 search_engine:
   -
     cx: # enter your cx here
     key: # enter your key here
 ```
-To obtain this key, check the official API documentation[here](https://console.cloud.google.com/apis/api/customsearch.googleapis.com). It has a rate-limit 100 query per day for free user 10k query per day for paid user.
-
+获取 cx 和 key 的方法请参考[here](https://console.cloud.google.com/apis/api/customsearch.googleapis.com). 免费用户每天有 100 次查询的限制，付费用户每天最多可查询 10,000 次。
 
 # Execute with closed-source api
 ## Setup
