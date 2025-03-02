@@ -23,7 +23,7 @@ bash data_generation.sh
 ```
 
 ## 准备数据集
-收集的数据集打包为zip文件，直接放入data文件夹下
+收集的数据集打包为zip文件，下载解压后直接放入data文件夹下
 
 ## 下载视觉工具的模型参数
 你只需要**手动下载 SAM 2**，其他模型`transformers`会自动下载。
