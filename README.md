@@ -45,11 +45,11 @@ search_engine:
     cx: # enter your cx here
     key: # enter your key here
 ```
-获取 cx 和 key 的方法请参考[here](https://console.cloud.google.com/apis/api/customsearch.googleapis.com). 免费用户每天有 100 次查询的限制，付费用户每天最多可查询 10,000 次。
+获取 cx 和 key 的方法请参考[链接](https://console.cloud.google.com/apis/api/customsearch.googleapis.com). 免费用户每天有 100 次查询的限制，付费用户每天最多可查询 10,000 次。
 
-# Execute with closed-source api
+# 采用闭源API执行
 ## Setup
-First, you need to set the api key and endpoint in `configs/agent_config.yaml`. The config file looks like this:
+首先, 需要在`configs/agent_config.yaml`中设置api key和endpoint. 配置文件如下所示:
 ```yaml
 tonggpt:
   model_name:  gpt-4o-2024-08-06
@@ -61,27 +61,25 @@ tonggpt:
 agent_controller:
   engine_type: tonggpt # use minicpm, qwen if you want to use other models
 ```
-We use GPT on Azure and provide a simple alternative for you to use original OpenAI client.
+这里使用Azure上的GPT.
 
-## Download benchmark dataset
-You can download the GTA dataset from [GTA Link](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip), and revise your dataset path `data/gta_dataset/dataset.json` in `examples/gta/main.py` if you put it in some other path.
+## 下载基准测试数据集
+可以从链接出下载GTA数据集 [GTA Link](https://github.com/open-compass/GTA/releases/download/v0.1.0/gta_dataset.zip), 并更改数据集路径 `data/gta_dataset/dataset.json` in `examples/gta/main.py` if you put it in some other path.
 
-## Run
-
-Run in command line manner with arbitrary prompt.
+## 运行
+可以用以下命令来执行任意提示词
 ```bash
 python main.py --prompt 'Can you edit the image to turn him into cyborg? Image path: tests/data/draw.jpg.'
 ```
 
-See results runing on GTA set
+执行以下可以看到GTA数据集上的效果
 ```bash
 python examples/gta/main.py
 ```
 
-# Experiments
+# 训练
 ## Qwen-VL
 Refer to official repo [Qwen-VL](https://github.com/QwenLM/Qwen2-VL) for environment setup.
-
 
 After setup the environment, you can run the script convert dataset from MiniCPM-V to Qwen-VL format:
 ```bash
@@ -95,7 +93,7 @@ bash slurm_jobs/train_gaia.sh
 bash slurm_jobs/train_gta.sh
 ```
 
-## Evaluation
+## 评测
 To evaluate the model, first modify the `configs/agent_config.yaml` to set the model path. Then run the script:
 ```bash
 export RUN_MODE=eval
@@ -117,24 +115,4 @@ Both benchmarks will output the results in `.cache` folder. You should use `eval
 python examples/gaia/eval.py --data-path .cache/qa_cache/validation/minicpm/experiments/CPM-FT/output/cpm_v2_6_7904295_2024_12_10_23_05/2023_level1.db
 
 python examples/gta/eval.py --folder .cache/gta/cpm_v2_6_7904295_2024_12_10_23_05/
-```
-
-# Acknowledgement
-Thanks for their brilliant contributions to the community! Here are the codebases we built upon.
-
-Our agent is based on the wonderful Huggingface Agent framework.
-* https://huggingface.co/docs/transformers/v4.47.1/en/main_classes/agent#transformers.ReactCodeAgent
-
-Our agent design is inspired by the following works:
-* https://github.com/aymeric-roucher/GAIA
-* https://github.com/Ag2S1/Sibyl-System
-
-Model training and inference code:
-* https://github.com/OpenBMB/MiniCPM-V
-* https://github.com/QwenLM/Qwen2-VL
-      eprint={2412.15606},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2412.15606}, 
-}
 ```
